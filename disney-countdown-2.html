@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disney Trip Countdown</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ffc3d7 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .countdown-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .title {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 2em;
+            color: #ff1493;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(255, 20, 147, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .title-text {
+            flex: 0 0 auto;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #ff69b4;
+            margin-bottom: 30px;
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .time-unit {
+            background: linear-gradient(135deg, #ff1493 0%, #ff69b4 100%);
+            border-radius: 15px;
+            padding: 25px 30px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+        }
+        
+        .time-value {
+            font-size: 3em;
+            font-weight: bold;
+            display: block;
+            line-height: 1;
+        }
+        
+        .time-label {
+            font-size: 0.9em;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+        
+        .date-display {
+            font-size: 1.2em;
+            color: #ff69b4;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+        
+        .sparkle {
+            font-size: 1.5em;
+            margin: 0 5px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        @media (max-width: 600px) {
+            .countdown {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .time-unit {
+                padding: 20px 25px;
+            }
+            
+            .title {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown-container">
+        <div class="title">
+            <span class="sparkle">✨</span>
+            <span class="title-text">Disney Trip Countdown</span>
+            <span class="sparkle">✨</span>
+        </div>
+        <div class="subtitle">The magic is almost here!</div>
+        
+        <div class="countdown">
+            <div class="time-unit">
+                <span class="time-value" id="months">0</span>
+                <span class="time-label">Months</span>
+            </div>
+            <div class="time-unit">
+                <span class="time-value" id="days">0</span>
+                <span class="time-label">Days</span>
+            </div>
+        </div>
+        
+        <div class="date-display">
+            November 11, 2026
+        </div>
+    </div>
+    
+    <script>
+        function updateCountdown() {
+            const targetDate = new Date('2026-11-11T00:00:00');
+            const now = new Date();
+            
+            const diffTime = targetDate - now;
+            
+            if (diffTime <= 0) {
+                document.getElementById('months').textContent = '0';
+                document.getElementById('days').textContent = '0';
+                document.querySelector('.subtitle').textContent = "It's Disney time! 🎉";
+                return;
+            }
+            
+            // Calculate months and remaining days
+            let tempDate = new Date(now);
+            let months = 0;
+            
+            while (tempDate < targetDate) {
+                tempDate.setMonth(tempDate.getMonth() + 1);
+                if (tempDate <= targetDate) {
+                    months++;
+                }
+            }
+            
+            // Go back one month and calculate remaining days
+            tempDate.setMonth(tempDate.getMonth() - 1);
+            const days = Math.floor((targetDate - tempDate) / (1000 * 60 * 60 * 24));
+            
+            document.getElementById('months').textContent = months;
+            document.getElementById('days').textContent = days;
+        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 1000 * 60 * 60); // Update every hour
+    </script>
+</body>
+</html>
